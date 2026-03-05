@@ -14,19 +14,19 @@ pub struct Args {
 #[derive(Debug, clap::Args)]
 pub struct GlobalOpts {
     #[clap(short, long, global = true)]
-    pub outfile: PathBuf,
+    pub outfile: Option<PathBuf>,
 }
 
 #[derive(Debug, Subcommand)]
 pub enum SubCommand {
     Fasta {
-        #[clap(short, long)]
-        file: PathBuf,
+        #[clap(short, long, num_args=1..)]
+        files: Vec<PathBuf>,
     },
 
     Fastq {
-        #[clap(short, long)]
-        file: PathBuf,
+        #[clap(short, long, num_args=1..)]
+        files: Vec<PathBuf>,
     },
 
     #[cfg(feature = "bam")]
