@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FASTA Report</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    h1 { margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>FASTA Report</h1>
+  <table id="fasta-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Length (bp)</th>
+        <th>GC Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in records %}
+      <tr>
+        <td>{{ record.name }}</td>
+        <td>{{ record.num_bases }}</td>
+        <td>{{ record.gc }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#fasta-table').DataTable();
+    });
+  </script>
+</body>
+</html>
