@@ -22,5 +22,6 @@ pub fn single_file_spinner() -> ProgressBar {
             .expect("failed to initialize progres spinner."),
     );
 
+    spinner.enable_steady_tick(std::time::Duration::from_millis(100));
     spinner
 }
