@@ -1,17 +1,18 @@
 mod args;
 mod data;
-mod dispatch;
 mod errors;
 
-use crate::{args::Args, dispatch::dispatch, errors::AppError};
+use crate::{args::Args, errors::AppError};
 use clap::Parser;
 use simple_logger::SimpleLogger;
 
 fn main() -> Result<(), AppError> {
-    SimpleLogger::new().init().expect("");
+    SimpleLogger::new()
+        .init()
+        .expect("failed to initialize logger.");
 
     let args = Args::parse();
-    let _ = dispatch(args)?;
+    let _ = data::dispatch(args)?;
 
     Ok(())
 }

@@ -1,27 +1,21 @@
 use super::html::FastqReportTemplate;
-use super::schema::FastqSummary;
-use crate::errors::AppError;
+use super::schema::FastqOverviewSummary;
+use crate::{data::utils::multi_file_spinner, errors::AppError};
 use askama::Template;
 use bio_utils_rs::{
     io::needletail_reader,
     nucleotide::{PHRED_TO_ERROR, error_to_phred},
 };
-use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
 use std::{fs::File, io::BufWriter, path::PathBuf};
 
-pub fn parse_fastq(fastqs: Vec<PathBuf>, outfile: Option<PathBuf>) -> Result<(), AppError> {
-    let outfile = outfile.unwrap_or_else(|| PathBuf::from("fastq.html"));
+pub fn parse(fastqs: Vec<PathBuf>, outfile: Option<PathBuf>) -> Result<(), AppError> {
+    let outfile = outfile.unwrap_or_else(|| PathBuf::from("multi_fastq.html"));
 
     let total = fastqs.len() as u64;
-    let pb = ProgressBar::new(total);
-    pb.set_style(
-        ProgressStyle::with_template("{spinner:.green} [{bar:40.cyan/blue}] {pos}/{len} files parsed ({elapsed})")
-            .unwrap()
-            .progress_chars("=>-"),
-    );
+    let spinner = multi_file_spinner(total);
 
-    let fastq_summary: Vec<FastqSummary> = fastqs
+    let fastq_summary: Vec<FastqOverviewSummary> = fastqs
         .into_par_iter()
         .filter_map(|fastq| {
             let sample_name = fastq
@@ -58,18 +52,16 @@ pub fn parse_fastq(fastqs: Vec<PathBuf>, outfile: Option<PathBuf>) -> Result<(),
             let mean_error = error_sum / num_bases as f64;
             let mean_phred = error_to_phred(mean_error);
 
-            let summary = Some(FastqSummary {
+            let summary = Some(FastqOverviewSummary {
                 sample_name,
                 num_reads,
                 num_bases,
                 mean_phred,
             });
-            pb.inc(1);
+            spinner.inc(1);
             summary
         })
         .collect();
-
-    pb.finish_with_message("done");
 
     let mut writer = BufWriter::new(File::create(outfile)?);
 
@@ -77,6 +69,8 @@ pub fn parse_fastq(fastqs: Vec<PathBuf>, outfile: Option<PathBuf>) -> Result<(),
         records: &fastq_summary,
     }
     .write_into(&mut writer)?;
+
+    spinner.finish_with_message("done");
 
     Ok(())
 }
