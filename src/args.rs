@@ -32,6 +32,6 @@ pub enum SubCommand {
     #[cfg(feature = "bam")]
     Bam {
         #[clap(short, long)]
-        file: PathBuf,
+        files: Vec<PathBuf>,
     },
 }

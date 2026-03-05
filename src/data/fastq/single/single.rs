@@ -41,7 +41,7 @@ pub fn parse(fastq: PathBuf, outfile: Option<PathBuf>) -> Result<(), AppError> {
         records.push(FastqDetailSummary {
             read_name,
             len: record.num_bases(),
-            gc: gc,
+            gc,
             mean_error,
             mean_phred,
         })

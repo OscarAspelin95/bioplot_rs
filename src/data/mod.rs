@@ -16,7 +16,7 @@ pub fn dispatch(args: Args) -> Result<(), AppError> {
         SubCommand::Fasta { files } => fasta_dispatch(files, args.global_opts.outfile)?,
         SubCommand::Fastq { files } => fastq_dispatch(files, args.global_opts.outfile)?,
         #[cfg(feature = "bam")]
-        SubCommand::Bam { file } => unimplemented!("BAM support not available yet."),
+        SubCommand::Bam { files } => unimplemented!("BAM support not available yet."),
     }
     Ok(())
 }

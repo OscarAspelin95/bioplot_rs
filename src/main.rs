@@ -12,7 +12,7 @@ fn main() -> Result<(), AppError> {
         .expect("failed to initialize logger.");
 
     let args = Args::parse();
-    let _ = data::dispatch(args)?;
+    data::dispatch(args)?;
 
     Ok(())
 }

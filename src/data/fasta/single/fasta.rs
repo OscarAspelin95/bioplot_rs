@@ -34,7 +34,7 @@ pub fn parse(fasta: PathBuf, outfile: Option<PathBuf>) -> Result<(), AppError> {
         records.push(FastaDetailSummary {
             contig_name,
             len,
-            gc: gc,
+            gc,
             entropy,
             num_softmask,
             num_hardmask,
