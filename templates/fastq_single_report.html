@@ -2,151 +2,336 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>FASTQ Report</title>
-		<link
-			rel="stylesheet"
-			href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
-		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.min.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/searchbuilder/1.8.4/css/searchBuilder.dataTables.min.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.6/css/buttons.dataTables.min.css" />
 		<style>
 			*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 			body {
-				font-family: 'Segoe UI', system-ui, sans-serif;
+				font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
 				background: #f4f6f9;
 				color: #1e2a3a;
 				min-height: 100vh;
+				-webkit-font-smoothing: antialiased;
 			}
 
 			header {
 				background: linear-gradient(135deg, #1a2f4e 0%, #1e6b6b 100%);
 				color: white;
-				padding: 2rem 3rem;
-				box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+				padding: 2.5rem 3rem;
+				box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+			}
+
+			header .header-inner {
+				max-width: 1400px;
+				margin: 0 auto;
 			}
 
 			header h1 {
-				font-size: 1.8rem;
-				font-weight: 600;
-				letter-spacing: 0.5px;
+				font-size: 1.6rem;
+				font-weight: 700;
+				letter-spacing: -0.01em;
 			}
 
 			header p {
 				margin-top: 0.3rem;
-				opacity: 0.75;
-				font-size: 0.9rem;
+				opacity: 0.6;
+				font-size: 0.8rem;
+				font-weight: 500;
+				letter-spacing: 0.03em;
 			}
 
 			main {
-				padding: 2.5rem 3rem;
+				max-width: 1400px;
+				margin: 0 auto;
+				padding: 2rem 3rem 3rem;
 			}
 
 			h2 {
-				font-size: 1.1rem;
+				font-size: 1rem;
 				font-weight: 600;
 				color: #1a2f4e;
-				margin-bottom: 1rem;
-				padding-bottom: 0.4rem;
-				border-bottom: 2px solid #1e6b6b;
-				display: inline-block;
+				margin-bottom: 1.25rem;
+				border-left: 3px solid #1e6b6b;
+				padding-left: 0.75rem;
 			}
 
 			.card {
 				background: white;
+				border-radius: 10px;
+				box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+				padding: 1.75rem 2rem;
+				margin-bottom: 1.5rem;
+			}
+
+			.card p {
+				font-size: 0.85rem;
+				color: #64748b;
+				margin-bottom: 1rem;
+			}
+
+			/* Metrics grid */
+			.metrics-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+				gap: 1rem;
+				margin-bottom: 1.5rem;
+			}
+
+			.metric {
+				background: white;
 				border-radius: 8px;
-				box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-				padding: 1.5rem 2rem 2rem;
-				margin-bottom: 2rem;
+				border: 1px solid #e2e8f0;
+				padding: 1.25rem;
+			}
+
+			.metric-label {
+				font-size: 0.7rem;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+				color: #64748b;
+				font-weight: 600;
+				margin-bottom: 0.35rem;
+			}
+
+			.metric-value {
+				font-size: 1.5rem;
+				font-weight: 700;
+				color: #1a2f4e;
+				font-variant-numeric: tabular-nums;
+			}
+
+			/* File info section */
+			.file-info {
+				background: white;
+				border-radius: 10px;
+				box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+				padding: 1.25rem 1.75rem;
+				margin-bottom: 1.5rem;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem 2rem;
+				align-items: center;
+			}
+
+			.file-info-item {
+				font-size: 0.8rem;
+				color: #475569;
+			}
+
+			.file-info-item strong {
+				color: #1a2f4e;
+				font-weight: 600;
+			}
+
+			.file-info-item .mono {
+				font-family: 'JetBrains Mono', monospace;
+				font-size: 0.75rem;
+				color: #64748b;
 			}
 
 			/* DataTables overrides */
+			table.dataTable { border-collapse: collapse !important; }
+
 			table.dataTable thead th {
 				background: #1a2f4e;
 				color: white;
 				font-weight: 500;
+				font-size: 0.82rem;
 				border-bottom: none;
-			}
-
-			table.dataTable tbody tr:hover {
-				background: #eef5f5 !important;
+				padding: 0.75rem 1rem;
 			}
 
 			table.dataTable tbody td {
-				border-color: #e8ecf0;
+				font-size: 0.85rem;
+				border-color: #f1f5f9;
+				padding: 0.6rem 1rem;
+				font-variant-numeric: tabular-nums;
+			}
+
+			table.dataTable tbody tr:hover {
+				background: #f0f7f7 !important;
 			}
 
 			.dataTables_wrapper .dataTables_filter input {
-				border: 1px solid #cdd4dc;
-				border-radius: 4px;
-				padding: 0.3rem 0.6rem;
+				border: 1px solid #cbd5e1;
+				border-radius: 6px;
+				padding: 0.35rem 0.7rem;
+				font-size: 0.85rem;
 				outline: none;
+				transition: border-color 0.15s, box-shadow 0.15s;
 			}
 
 			.dataTables_wrapper .dataTables_filter input:focus {
 				border-color: #1e6b6b;
-				box-shadow: 0 0 0 2px rgba(30,107,107,0.15);
+				box-shadow: 0 0 0 3px rgba(30,107,107,0.12);
+			}
+
+			.dataTables_wrapper .dataTables_info,
+			.dataTables_wrapper .dataTables_length,
+			.dataTables_wrapper .dataTables_filter label {
+				font-size: 0.82rem;
+				color: #64748b;
 			}
 
 			.dataTables_wrapper .dataTables_paginate .paginate_button.current {
 				background: #1e6b6b !important;
 				border-color: #1e6b6b !important;
 				color: white !important;
-				border-radius: 4px;
+				border-radius: 6px;
+				font-weight: 500;
 			}
 
 			.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-				background: #eef5f5 !important;
+				background: #f0f7f7 !important;
 				border-color: #1e6b6b !important;
 				color: #1e6b6b !important;
+			}
+
+			/* Footer */
+			.report-footer {
+				margin-top: 1rem;
+				padding: 1rem 0;
+				border-top: 1px solid #e2e8f0;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.25rem 1.5rem;
+				font-size: 0.75rem;
+				color: #94a3b8;
+			}
+
+			.report-footer .mono {
+				font-family: 'JetBrains Mono', monospace;
 			}
 		</style>
 	</head>
 	<body>
 		<header>
-			<h1>FASTQ Report</h1>
-			<p>bioplot_rs</p>
+			<div class="header-inner">
+				<h1>FASTQ Report</h1>
+				<p>bioplot_rs</p>
+			</div>
 		</header>
 
 		<main>
-		<div class="card">
-			<h2>Length vs Mean Phred</h2>
-			<div id="scatter-chart" style="width: 100%; height: 600px;"></div>
-		</div>
+			<div class="file-info">
+				<div class="file-info-item"><strong>File:</strong> {{ file_name }}</div>
+				<div class="file-info-item"><strong>SHA-256:</strong> <span class="mono">{{ sha256 }}</span></div>
+			</div>
 
-		<div class="card">
-		<h2>Reads (n = {{ records.len() }})</h2>
-		<table id="fastq-table" class="display">
-			<thead>
-				<tr>
-					<th>Read Name</th>
-					<th>Length</th>
-					<th>GC Content</th>
-					<th>Mean Error</th>
-					<th>Mean Phred</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for record in records %}
-				<tr>
-					<td>{{ record.read_name }}</td>
-					<td>{{ record.len }}</td>
-					<td>{{ record.gc|fmt("{:.4}") }}</td>
-					<td>{{ record.mean_error|fmt("{:.6}") }}</td>
-					<td>{{ record.mean_phred }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		</div>
+			<div class="metrics-grid">
+				<div class="metric">
+					<div class="metric-label">Reads</div>
+					<div class="metric-value" data-fmt="number">{{ total_reads() }}</div>
+				</div>
+				<div class="metric">
+					<div class="metric-label">Total Bases</div>
+					<div class="metric-value" data-fmt="bases">{{ total_bases() }}</div>
+				</div>
+				<div class="metric">
+					<div class="metric-label">Mean Length</div>
+					<div class="metric-value" data-fmt="bases">{{ mean_length() }}</div>
+				</div>
+				<div class="metric">
+					<div class="metric-label">Mean GC</div>
+					<div class="metric-value" data-fmt="pct">{{ mean_gc() }}</div>
+				</div>
+				<div class="metric">
+					<div class="metric-label">Mean Phred</div>
+					<div class="metric-value" data-fmt="fixed1">{{ mean_phred() }}</div>
+				</div>
+			</div>
+
+			<div class="card">
+				<h2>Length vs Mean Phred</h2>
+				<div id="scatter-chart" style="width: 100%; height: 600px;"></div>
+			</div>
+
+			<div class="card">
+				<h2>Low Quality Reads</h2>
+				<p>Showing reads with a mean phred less than {{ low_qual_phred }}. Showing a maximum of 100 reads.</p>
+				<table id="fastq-table" class="display" style="width:100%">
+					<thead>
+						<tr>
+							<th>Read Name</th>
+							<th>Length</th>
+							<th>GC Content</th>
+							<th>Mean Error</th>
+							<th>Mean Phred</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for record in low_qual_records() %}
+						<tr>
+							<td>{{ record.read_name }}</td>
+							<td>{{ record.len }}</td>
+							<td>{{ record.gc|fmt("{:.4}") }}</td>
+							<td>{{ record.mean_error|fmt("{:.4}") }}</td>
+							<td>{{ record.mean_phred }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="report-footer">
+				<span>Runtime: <span class="mono">{{ runtime }}</span></span>
+				<span>Generated: <span class="mono" data-timestamp="{{ generated_at }}"></span></span>
+			</div>
 		</main>
 
-		<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-		<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/searchbuilder/1.8.4/js/searchBuilder.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/3.2.6/js/dataTables.buttons.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/3.2.6/js/buttons.html5.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 		<script>
-			$(document).ready(function () {
-				$('#fastq-table').DataTable();
+			// Number formatting
+			function formatBases(n) {
+				if (n >= 1e9) return (n / 1e9).toFixed(2) + ' Gb';
+				if (n >= 1e6) return (n / 1e6).toFixed(2) + ' Mb';
+				if (n >= 1e3) return (n / 1e3).toFixed(2) + ' kb';
+				return n.toLocaleString() + ' bp';
+			}
+
+			document.querySelectorAll('.metric-value[data-fmt="number"]').forEach(function(el) {
+				el.textContent = Number(el.textContent).toLocaleString();
+			});
+			document.querySelectorAll('.metric-value[data-fmt="bases"]').forEach(function(el) {
+				el.textContent = formatBases(Number(el.textContent));
+			});
+			document.querySelectorAll('.metric-value[data-fmt="pct"]').forEach(function(el) {
+				el.textContent = (Number(el.textContent) * 100).toFixed(2) + '%';
+			});
+			document.querySelectorAll('.metric-value[data-fmt="fixed1"]').forEach(function(el) {
+				el.textContent = Number(el.textContent).toFixed(1);
+			});
+			document.querySelectorAll('[data-timestamp]').forEach(function(el) {
+				var ts = parseInt(el.getAttribute('data-timestamp')) * 1000;
+				el.textContent = new Date(ts).toLocaleString();
 			});
 
+			$(document).ready(function () {
+				$('#fastq-table').DataTable({
+					pageLength: 25,
+					layout: {
+						topStart: {
+							buttons: ['csv', 'excel']
+						},
+						top1Start: 'searchBuilder'
+					}
+				});
+			});
+
+			// Scatter chart
 			var data = [
 				{% for record in records %}
 				[{{ record.len }}, {{ record.mean_phred }}],
@@ -198,6 +383,8 @@
 				var yMin = histY.edges[0];
 				var yMax = histY.edges[histY.edges.length - 1];
 
+				var kFmt = function(v) { return v >= 1000 ? (v/1000).toFixed(1).replace(/\.0$/, '') + 'k' : v; };
+
 				var chart = echarts.init(document.getElementById('scatter-chart'));
 
 				chart.setOption({
@@ -210,7 +397,7 @@
 					xAxis: [
 						{ gridIndex: 0, type: 'value', name: 'Length (bp)', nameLocation: 'center', nameGap: 30, min: xMin, max: xMax },
 						{ gridIndex: 1, type: 'value', show: false, min: xMin, max: xMax },
-						{ gridIndex: 2, type: 'value' }
+						{ gridIndex: 2, type: 'value', axisLabel: { formatter: kFmt } }
 					],
 					yAxis: [
 						{ gridIndex: 0, type: 'value', name: 'Mean Phred', nameLocation: 'center', nameGap: 35, min: yMin, max: yMax },
@@ -226,7 +413,7 @@
 							itemStyle: { color: 'rgba(30,107,107,0.6)' },
 							tooltip: {
 								formatter: function(p) {
-									return 'Length: ' + p.value[0] + ' bp<br>Mean Phred: ' + p.value[1];
+									return 'Length: ' + p.value[0].toLocaleString() + ' bp<br>Mean Phred: ' + p.value[1];
 								}
 							}
 						},
@@ -237,7 +424,7 @@
 							data: topData,
 							tooltip: {
 								formatter: function(p) {
-									return p.value[0].toFixed(1) + ' – ' + p.value[1].toFixed(1) + ' bp<br>Count: ' + p.value[2];
+									return p.value[0].toFixed(1) + ' – ' + p.value[1].toFixed(1) + ' bp<br>Count: ' + p.value[2].toLocaleString();
 								}
 							},
 							renderItem: function(params, api) {
@@ -249,7 +436,7 @@
 								);
 								return rect && {
 									type: 'rect', shape: rect,
-									style: { fill: 'rgba(30,107,107,0.7)', stroke: 'rgba(26,47,78,0.3)', lineWidth: 0.5 }
+									style: { fill: 'rgba(30,107,107,0.7)', stroke: 'rgba(26,47,78,0.2)', lineWidth: 0.5 }
 								};
 							}
 						},
@@ -260,7 +447,7 @@
 							data: rightData,
 							tooltip: {
 								formatter: function(p) {
-									return 'Phred: ' + p.value[0].toFixed(1) + ' – ' + p.value[1].toFixed(1) + '<br>Count: ' + p.value[2];
+									return 'Phred: ' + p.value[0].toFixed(1) + ' – ' + p.value[1].toFixed(1) + '<br>Count: ' + p.value[2].toLocaleString();
 								}
 							},
 							renderItem: function(params, api) {
@@ -272,7 +459,7 @@
 								);
 								return rect && {
 									type: 'rect', shape: rect,
-									style: { fill: 'rgba(30,107,107,0.7)', stroke: 'rgba(26,47,78,0.3)', lineWidth: 0.5 }
+									style: { fill: 'rgba(30,107,107,0.7)', stroke: 'rgba(26,47,78,0.2)', lineWidth: 0.5 }
 								};
 							}
 						}

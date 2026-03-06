@@ -1,15 +1,19 @@
 use super::html::FastqReportTemplate;
 use super::schema::FastqOverviewSummary;
-use crate::{data::utils::multi_file_spinner, errors::AppError};
+use crate::{
+    data::utils::{format_duration, multi_file_spinner, unix_timestamp},
+    errors::AppError,
+};
 use askama::Template;
 use bio_utils_rs::{
     io::needletail_reader,
     nucleotide::{PHRED_TO_ERROR, error_to_phred},
 };
 use rayon::prelude::*;
-use std::{fs::File, io::BufWriter, path::PathBuf};
+use std::{fs::File, io::BufWriter, path::PathBuf, time::Instant};
 
 pub fn parse(fastqs: Vec<PathBuf>, outfile: Option<PathBuf>) -> Result<(), AppError> {
+    let start = Instant::now();
     let outfile = outfile.unwrap_or_else(|| PathBuf::from("multi_fastq.html"));
 
     let total = fastqs.len() as u64;
@@ -66,6 +70,8 @@ pub fn parse(fastqs: Vec<PathBuf>, outfile: Option<PathBuf>) -> Result<(), AppEr
     let mut writer = BufWriter::new(File::create(outfile)?);
 
     FastqReportTemplate {
+        runtime: format_duration(start),
+        generated_at: unix_timestamp(),
         records: &fastq_summary,
     }
     .write_into(&mut writer)?;

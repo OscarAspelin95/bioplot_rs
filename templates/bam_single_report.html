@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>FASTA Report</title>
+		<title>BAM Report</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -70,7 +70,6 @@
 				margin-bottom: 1.5rem;
 			}
 
-			/* Metrics grid */
 			.metrics-grid {
 				display: grid;
 				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -101,7 +100,6 @@
 				font-variant-numeric: tabular-nums;
 			}
 
-			/* File info section */
 			.file-info {
 				background: white;
 				border-radius: 10px;
@@ -130,7 +128,6 @@
 				color: #64748b;
 			}
 
-			/* DataTables overrides */
 			table.dataTable { border-collapse: collapse !important; }
 
 			table.dataTable thead th {
@@ -188,7 +185,6 @@
 				color: #1e6b6b !important;
 			}
 
-			/* Footer */
 			.report-footer {
 				margin-top: 1rem;
 				padding: 1rem 0;
@@ -208,7 +204,7 @@
 	<body>
 		<header>
 			<div class="header-inner">
-				<h1>FASTA Report</h1>
+				<h1>BAM Report</h1>
 				<p>bioplot_rs</p>
 			</div>
 		</header>
@@ -229,58 +225,40 @@
 					<div class="metric-value" data-fmt="bases">{{ total_bases() }}</div>
 				</div>
 				<div class="metric">
-					<div class="metric-label">Mean Length</div>
-					<div class="metric-value" data-fmt="bases">{{ mean_length() }}</div>
+					<div class="metric-label">Mean Coverage</div>
+					<div class="metric-value" data-fmt="cov">{{ mean_coverage() }}</div>
 				</div>
 				<div class="metric">
-					<div class="metric-label">Mean GC</div>
-					<div class="metric-value" data-fmt="pct">{{ mean_gc() }}</div>
+					<div class="metric-label">Max Coverage</div>
+					<div class="metric-value" data-fmt="cov">{{ max_coverage() }}</div>
 				</div>
 				<div class="metric">
-					<div class="metric-label">N50</div>
-					<div class="metric-value" data-fmt="bases">{{ n50() }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">L50</div>
-					<div class="metric-value" data-fmt="number">{{ l50() }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">Largest</div>
-					<div class="metric-value" data-fmt="bases">{{ largest_contig() }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">Smallest</div>
-					<div class="metric-value" data-fmt="bases">{{ smallest_contig() }}</div>
+					<div class="metric-label">Min Coverage</div>
+					<div class="metric-value" data-fmt="cov">{{ min_coverage() }}</div>
 				</div>
 			</div>
 
 			<div class="card">
-				<h2>Length vs GC Content</h2>
-				<div id="scatter-chart" style="width: 100%; height: 600px;"></div>
+				<h2>Coverage vs Contig Length</h2>
+				<div id="scatter-chart" style="width: 100%; height: 500px;"></div>
 			</div>
 
 			<div class="card">
 				<h2>Contigs</h2>
-				<table id="fasta-table" class="display" style="width:100%">
+				<table id="bam-table" class="display" style="width:100%">
 					<thead>
 						<tr>
-							<th>Contig Name</th>
-							<th>Length</th>
-							<th>GC Content</th>
-							<th>Entropy</th>
-							<th>Softmasked</th>
-							<th>Hardmasked</th>
+							<th>Contig</th>
+							<th>Length (bp)</th>
+							<th>Mean Coverage</th>
 						</tr>
 					</thead>
 					<tbody>
 						{% for record in records %}
 						<tr>
 							<td>{{ record.contig_name }}</td>
-							<td>{{ record.len }}</td>
-							<td>{{ record.gc|fmt("{:.4}") }}</td>
-							<td>{{ record.entropy|fmt("{:.4}") }}</td>
-							<td>{{ record.num_softmask }}</td>
-							<td>{{ record.num_hardmask }}</td>
+							<td>{{ record.contig_length }}</td>
+							<td>{{ record.mean_coverage|fmt("{:.4}") }}</td>
 						</tr>
 						{% endfor %}
 					</tbody>
@@ -301,7 +279,6 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 		<script>
-			// Number formatting
 			function formatBases(n) {
 				if (n >= 1e9) return (n / 1e9).toFixed(2) + ' Gb';
 				if (n >= 1e6) return (n / 1e6).toFixed(2) + ' Mb';
@@ -315,8 +292,8 @@
 			document.querySelectorAll('.metric-value[data-fmt="bases"]').forEach(function(el) {
 				el.textContent = formatBases(Number(el.textContent));
 			});
-			document.querySelectorAll('.metric-value[data-fmt="pct"]').forEach(function(el) {
-				el.textContent = (Number(el.textContent) * 100).toFixed(2) + '%';
+			document.querySelectorAll('.metric-value[data-fmt="cov"]').forEach(function(el) {
+				el.textContent = Number(el.textContent).toFixed(2) + 'x';
 			});
 			document.querySelectorAll('[data-timestamp]').forEach(function(el) {
 				var ts = parseInt(el.getAttribute('data-timestamp')) * 1000;
@@ -324,152 +301,66 @@
 			});
 
 			$(document).ready(function () {
-				$('#fasta-table').DataTable({
+				$('#bam-table').DataTable({
 					pageLength: 25,
 					layout: {
 						topStart: {
 							buttons: ['csv', 'excel']
 						},
 						top1Start: 'searchBuilder'
-					}
+					},
+					columnDefs: [
+						{ targets: 1, render: function(data) { return Number(data).toLocaleString(); } },
+						{ targets: 2, render: function(data) { return Number(data).toFixed(4) + 'x'; } }
+					]
 				});
 			});
 
-			// Scatter chart
 			var data = [
 				{% for record in records %}
-				[{{ record.len }}, {{ record.gc }}],
+				[{{ record.contig_length }}, {{ record.mean_coverage }}, "{{ record.contig_name }}"],
 				{% endfor %}
 			];
 
-			function extent(values) {
-				var lo = Infinity, hi = -Infinity;
-				for (var i = 0; i < values.length; i++) {
-					if (values[i] < lo) lo = values[i];
-					if (values[i] > hi) hi = values[i];
-				}
-				return [lo, hi];
-			}
-
-			function histogram(values, numBins) {
-				var ext = extent(values);
-				var min = ext[0], max = ext[1];
-				if (min === max) { min -= 0.5; max += 0.5; }
-				var binWidth = (max - min) / numBins;
-				var bins = new Array(numBins).fill(0);
-				var edges = [];
-				for (var i = 0; i <= numBins; i++) edges.push(min + i * binWidth);
-				for (var i = 0; i < values.length; i++) {
-					var idx = Math.floor((values[i] - min) / binWidth);
-					if (idx >= numBins) idx = numBins - 1;
-					if (idx < 0) idx = 0;
-					bins[idx]++;
-				}
-				return { bins: bins, edges: edges };
-			}
-
 			if (data.length > 0) {
-				var xVals = data.map(function(d) { return d[0]; });
-				var yVals = data.map(function(d) { return d[1]; });
-
-				var histX = histogram(xVals, 50);
-				var histY = histogram(yVals, 50);
-
-				var topData = histX.bins.map(function(c, i) {
-					return [histX.edges[i], histX.edges[i + 1], c];
-				});
-				var rightData = histY.bins.map(function(c, i) {
-					return [histY.edges[i], histY.edges[i + 1], c];
-				});
-
-				var xMin = histX.edges[0];
-				var xMax = histX.edges[histX.edges.length - 1];
-				var yMin = histY.edges[0];
-				var yMax = histY.edges[histY.edges.length - 1];
-
-				var kFmt = function(v) { return v >= 1000 ? (v/1000).toFixed(1).replace(/\.0$/, '') + 'k' : v; };
-
 				var chart = echarts.init(document.getElementById('scatter-chart'));
-
 				chart.setOption({
-					tooltip: { trigger: 'item' },
-					grid: [
-						{ left: 70, right: 180, top: 140, bottom: 60 },
-						{ left: 70, right: 180, top: 30, height: 80 },
-						{ right: 30, width: 120, top: 140, bottom: 60 }
-					],
-					xAxis: [
-						{ gridIndex: 0, type: 'value', name: 'Length (bp)', nameLocation: 'center', nameGap: 30, min: xMin, max: xMax },
-						{ gridIndex: 1, type: 'value', show: false, min: xMin, max: xMax },
-						{ gridIndex: 2, type: 'value', axisLabel: { formatter: kFmt } }
-					],
-					yAxis: [
-						{ gridIndex: 0, type: 'value', name: 'GC Content', nameLocation: 'center', nameGap: 45, min: yMin, max: yMax },
-						{ gridIndex: 1, type: 'value' },
-						{ gridIndex: 2, type: 'value', show: false, min: yMin, max: yMax }
-					],
-					series: [
-						{
-							type: 'scatter',
-							xAxisIndex: 0, yAxisIndex: 0,
-							data: data,
-							symbolSize: 4,
-							itemStyle: { color: 'rgba(30,107,107,0.6)' },
-							tooltip: {
-								formatter: function(p) {
-									return 'Length: ' + p.value[0].toLocaleString() + ' bp<br>GC: ' + p.value[1].toFixed(4);
-								}
-							}
-						},
-						{
-							type: 'custom',
-							xAxisIndex: 1, yAxisIndex: 1,
-							encode: { x: [0, 1], y: 2 },
-							data: topData,
-							tooltip: {
-								formatter: function(p) {
-									return p.value[0].toFixed(1) + ' – ' + p.value[1].toFixed(1) + ' bp<br>Count: ' + p.value[2].toLocaleString();
-								}
-							},
-							renderItem: function(params, api) {
-								var lo = api.coord([api.value(0), 0]);
-								var hi = api.coord([api.value(1), api.value(2)]);
-								var rect = echarts.graphic.clipRectByRect(
-									{ x: lo[0], y: hi[1], width: hi[0] - lo[0], height: lo[1] - hi[1] },
-									{ x: params.coordSys.x, y: params.coordSys.y, width: params.coordSys.width, height: params.coordSys.height }
-								);
-								return rect && {
-									type: 'rect', shape: rect,
-									style: { fill: 'rgba(30,107,107,0.7)', stroke: 'rgba(26,47,78,0.2)', lineWidth: 0.5 }
-								};
-							}
-						},
-						{
-							type: 'custom',
-							xAxisIndex: 2, yAxisIndex: 2,
-							encode: { x: 2, y: [0, 1] },
-							data: rightData,
-							tooltip: {
-								formatter: function(p) {
-									return 'GC: ' + p.value[0].toFixed(4) + ' – ' + p.value[1].toFixed(4) + '<br>Count: ' + p.value[2].toLocaleString();
-								}
-							},
-							renderItem: function(params, api) {
-								var lo = api.coord([0, api.value(0)]);
-								var hi = api.coord([api.value(2), api.value(1)]);
-								var rect = echarts.graphic.clipRectByRect(
-									{ x: lo[0], y: hi[1], width: hi[0] - lo[0], height: lo[1] - hi[1] },
-									{ x: params.coordSys.x, y: params.coordSys.y, width: params.coordSys.width, height: params.coordSys.height }
-								);
-								return rect && {
-									type: 'rect', shape: rect,
-									style: { fill: 'rgba(30,107,107,0.7)', stroke: 'rgba(26,47,78,0.2)', lineWidth: 0.5 }
-								};
+					tooltip: {
+						trigger: 'item',
+						formatter: function(p) {
+							return '<b>' + p.value[2] + '</b><br>'
+								+ 'Length: ' + Number(p.value[0]).toLocaleString() + ' bp<br>'
+								+ 'Coverage: ' + Number(p.value[1]).toFixed(2) + 'x';
+						}
+					},
+					grid: { left: 80, right: 40, top: 40, bottom: 60 },
+					xAxis: {
+						type: 'value',
+						name: 'Length (bp)',
+						nameLocation: 'center',
+						nameGap: 35,
+						axisLabel: {
+							formatter: function(v) {
+								if (v >= 1e6) return (v / 1e6).toFixed(1) + 'M';
+								if (v >= 1e3) return (v / 1e3).toFixed(0) + 'k';
+								return v;
 							}
 						}
-					]
+					},
+					yAxis: {
+						type: 'value',
+						name: 'Mean Coverage',
+						nameLocation: 'center',
+						nameGap: 50,
+						axisLabel: { formatter: function(v) { return v.toFixed(1) + 'x'; } }
+					},
+					series: [{
+						type: 'scatter',
+						data: data,
+						symbolSize: 6,
+						itemStyle: { color: 'rgba(30,107,107,0.65)' }
+					}]
 				});
-
 				window.addEventListener('resize', function() { chart.resize(); });
 			}
 		</script>

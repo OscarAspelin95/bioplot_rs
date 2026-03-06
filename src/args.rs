@@ -29,7 +29,6 @@ pub enum SubCommand {
         files: Vec<PathBuf>,
     },
 
-    #[cfg(feature = "bam")]
     Bam {
         #[clap(short, long)]
         files: Vec<PathBuf>,

@@ -1,12 +1,16 @@
 use super::html::FastaReportTemplate;
 use super::schema::FastaOverviewSummary;
-use crate::{data::utils::multi_file_spinner, errors::AppError};
+use crate::{
+    data::utils::{format_duration, multi_file_spinner, unix_timestamp},
+    errors::AppError,
+};
 use askama::Template;
 use bio_utils_rs::io::needletail_reader;
 use rayon::prelude::*;
-use std::{fs::File, io::BufWriter, path::PathBuf};
+use std::{fs::File, io::BufWriter, path::PathBuf, time::Instant};
 
 pub fn parse(fastas: Vec<PathBuf>, outfile: Option<PathBuf>) -> Result<(), AppError> {
+    let start = Instant::now();
     let outfile = outfile.unwrap_or_else(|| PathBuf::from("multi_fasta.html"));
 
     let total = fastas.len() as u64;
@@ -50,6 +54,8 @@ pub fn parse(fastas: Vec<PathBuf>, outfile: Option<PathBuf>) -> Result<(), AppEr
     let mut writer = BufWriter::new(File::create(outfile)?);
 
     FastaReportTemplate {
+        runtime: format_duration(start),
+        generated_at: unix_timestamp(),
         records: &fasta_summary,
     }
     .write_into(&mut writer)?;

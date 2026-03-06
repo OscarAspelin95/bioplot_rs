@@ -247,15 +247,15 @@
             <div class="summary-grid">
                 <div class="metric-card">
                     <div class="metric-label">Files Processed</div>
-                    <div class="metric-value" data-fmt="number">{{ self.num_files() }}</div>
+                    <div class="metric-value" data-fmt="number">2</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-label">Total Contigs</div>
-                    <div class="metric-value" data-fmt="number">{{ self.total_contigs() }}</div>
+                    <div class="metric-value" data-fmt="number">5</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-label">Total Bases</div>
-                    <div class="metric-value" data-fmt="bases">{{ self.total_bases() }}</div>
+                    <div class="metric-value" data-fmt="bases">68</div>
                 </div>
             </div>
         </section>
@@ -273,14 +273,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for record in records %}
+                    
                     <tr>
-                        <td>{{ record.sample_name }}</td>
-                        <td data-order="{{ record.num_contigs }}">{{ record.num_contigs }}</td>
-                        <td data-order="{{ record.num_bases }}">{{ record.num_bases }}</td>
-                        <td data-order="{{ record.mean_contig_len() }}">{{ record.mean_contig_len() }}</td>
+                        <td>test.fasta</td>
+                        <td data-order="3">3</td>
+                        <td data-order="52">52</td>
+                        <td data-order="17">17</td>
                     </tr>
-                    {% endfor %}
+                    
+                    <tr>
+                        <td>test2.fasta</td>
+                        <td data-order="2">2</td>
+                        <td data-order="16">16</td>
+                        <td data-order="8">8</td>
+                    </tr>
+                    
                 </tbody>
             </table>
         </section>
@@ -289,8 +296,8 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <span>Runtime: {{ runtime }}</span>
-        <span>Generated: <span data-timestamp="{{ generated_at }}">{{ generated_at }}</span></span>
+        <span>Runtime: 0.0s</span>
+        <span>Generated: <span data-timestamp="1772802599">1772802599</span></span>
     </footer>
 
     <!-- Scripts -->

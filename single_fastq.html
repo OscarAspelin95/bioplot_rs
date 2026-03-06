@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>FASTA Report</title>
+		<title>FASTQ Report</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -68,6 +68,12 @@
 				box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 				padding: 1.75rem 2rem;
 				margin-bottom: 1.5rem;
+			}
+
+			.card p {
+				font-size: 0.85rem;
+				color: #64748b;
+				margin-bottom: 1rem;
 			}
 
 			/* Metrics grid */
@@ -208,88 +214,67 @@
 	<body>
 		<header>
 			<div class="header-inner">
-				<h1>FASTA Report</h1>
+				<h1>FASTQ Report</h1>
 				<p>bioplot_rs</p>
 			</div>
 		</header>
 
 		<main>
 			<div class="file-info">
-				<div class="file-info-item"><strong>File:</strong> {{ file_name }}</div>
-				<div class="file-info-item"><strong>SHA-256:</strong> <span class="mono">{{ sha256 }}</span></div>
+				<div class="file-info-item"><strong>File:</strong> test.fastq</div>
+				<div class="file-info-item"><strong>SHA-256:</strong> <span class="mono">dd3adfeea16409d3e5409ec090a4c50c8eb6ea010dee21d7bb03d5461c1b546c</span></div>
 			</div>
 
 			<div class="metrics-grid">
 				<div class="metric">
-					<div class="metric-label">Contigs</div>
-					<div class="metric-value" data-fmt="number">{{ total_contigs() }}</div>
+					<div class="metric-label">Reads</div>
+					<div class="metric-value" data-fmt="number">2</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Total Bases</div>
-					<div class="metric-value" data-fmt="bases">{{ total_bases() }}</div>
+					<div class="metric-value" data-fmt="bases">18</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Mean Length</div>
-					<div class="metric-value" data-fmt="bases">{{ mean_length() }}</div>
+					<div class="metric-value" data-fmt="bases">9</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Mean GC</div>
-					<div class="metric-value" data-fmt="pct">{{ mean_gc() }}</div>
+					<div class="metric-value" data-fmt="pct">0.75</div>
 				</div>
 				<div class="metric">
-					<div class="metric-label">N50</div>
-					<div class="metric-value" data-fmt="bases">{{ n50() }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">L50</div>
-					<div class="metric-value" data-fmt="number">{{ l50() }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">Largest</div>
-					<div class="metric-value" data-fmt="bases">{{ largest_contig() }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">Smallest</div>
-					<div class="metric-value" data-fmt="bases">{{ smallest_contig() }}</div>
+					<div class="metric-label">Mean Phred</div>
+					<div class="metric-value" data-fmt="fixed1">40</div>
 				</div>
 			</div>
 
 			<div class="card">
-				<h2>Length vs GC Content</h2>
+				<h2>Length vs Mean Phred</h2>
 				<div id="scatter-chart" style="width: 100%; height: 600px;"></div>
 			</div>
 
 			<div class="card">
-				<h2>Contigs</h2>
-				<table id="fasta-table" class="display" style="width:100%">
+				<h2>Low Quality Reads</h2>
+				<p>Showing reads with a mean phred less than 10. Showing a maximum of 100 reads.</p>
+				<table id="fastq-table" class="display" style="width:100%">
 					<thead>
 						<tr>
-							<th>Contig Name</th>
+							<th>Read Name</th>
 							<th>Length</th>
 							<th>GC Content</th>
-							<th>Entropy</th>
-							<th>Softmasked</th>
-							<th>Hardmasked</th>
+							<th>Mean Error</th>
+							<th>Mean Phred</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for record in records %}
-						<tr>
-							<td>{{ record.contig_name }}</td>
-							<td>{{ record.len }}</td>
-							<td>{{ record.gc|fmt("{:.4}") }}</td>
-							<td>{{ record.entropy|fmt("{:.4}") }}</td>
-							<td>{{ record.num_softmask }}</td>
-							<td>{{ record.num_hardmask }}</td>
-						</tr>
-						{% endfor %}
+						
 					</tbody>
 				</table>
 			</div>
 
 			<div class="report-footer">
-				<span>Runtime: <span class="mono">{{ runtime }}</span></span>
-				<span>Generated: <span class="mono" data-timestamp="{{ generated_at }}"></span></span>
+				<span>Runtime: <span class="mono">0.0s</span></span>
+				<span>Generated: <span class="mono" data-timestamp="1772802596"></span></span>
 			</div>
 		</main>
 
@@ -318,13 +303,16 @@
 			document.querySelectorAll('.metric-value[data-fmt="pct"]').forEach(function(el) {
 				el.textContent = (Number(el.textContent) * 100).toFixed(2) + '%';
 			});
+			document.querySelectorAll('.metric-value[data-fmt="fixed1"]').forEach(function(el) {
+				el.textContent = Number(el.textContent).toFixed(1);
+			});
 			document.querySelectorAll('[data-timestamp]').forEach(function(el) {
 				var ts = parseInt(el.getAttribute('data-timestamp')) * 1000;
 				el.textContent = new Date(ts).toLocaleString();
 			});
 
 			$(document).ready(function () {
-				$('#fasta-table').DataTable({
+				$('#fastq-table').DataTable({
 					pageLength: 25,
 					layout: {
 						topStart: {
@@ -337,9 +325,11 @@
 
 			// Scatter chart
 			var data = [
-				{% for record in records %}
-				[{{ record.len }}, {{ record.gc }}],
-				{% endfor %}
+				
+				[8, 40],
+				
+				[10, 40],
+				
 			];
 
 			function extent(values) {
@@ -404,7 +394,7 @@
 						{ gridIndex: 2, type: 'value', axisLabel: { formatter: kFmt } }
 					],
 					yAxis: [
-						{ gridIndex: 0, type: 'value', name: 'GC Content', nameLocation: 'center', nameGap: 45, min: yMin, max: yMax },
+						{ gridIndex: 0, type: 'value', name: 'Mean Phred', nameLocation: 'center', nameGap: 35, min: yMin, max: yMax },
 						{ gridIndex: 1, type: 'value' },
 						{ gridIndex: 2, type: 'value', show: false, min: yMin, max: yMax }
 					],
@@ -417,7 +407,7 @@
 							itemStyle: { color: 'rgba(30,107,107,0.6)' },
 							tooltip: {
 								formatter: function(p) {
-									return 'Length: ' + p.value[0].toLocaleString() + ' bp<br>GC: ' + p.value[1].toFixed(4);
+									return 'Length: ' + p.value[0].toLocaleString() + ' bp<br>Mean Phred: ' + p.value[1];
 								}
 							}
 						},
@@ -451,7 +441,7 @@
 							data: rightData,
 							tooltip: {
 								formatter: function(p) {
-									return 'GC: ' + p.value[0].toFixed(4) + ' – ' + p.value[1].toFixed(4) + '<br>Count: ' + p.value[2].toLocaleString();
+									return 'Phred: ' + p.value[0].toFixed(1) + ' – ' + p.value[1].toFixed(1) + '<br>Count: ' + p.value[2].toLocaleString();
 								}
 							},
 							renderItem: function(params, api) {

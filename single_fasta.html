@@ -215,42 +215,42 @@
 
 		<main>
 			<div class="file-info">
-				<div class="file-info-item"><strong>File:</strong> {{ file_name }}</div>
-				<div class="file-info-item"><strong>SHA-256:</strong> <span class="mono">{{ sha256 }}</span></div>
+				<div class="file-info-item"><strong>File:</strong> test.fasta</div>
+				<div class="file-info-item"><strong>SHA-256:</strong> <span class="mono">b7e592c7cbb74fe89a528906bfdab0f4b5961edd5295e85aeae554fb53f97477</span></div>
 			</div>
 
 			<div class="metrics-grid">
 				<div class="metric">
 					<div class="metric-label">Contigs</div>
-					<div class="metric-value" data-fmt="number">{{ total_contigs() }}</div>
+					<div class="metric-value" data-fmt="number">3</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Total Bases</div>
-					<div class="metric-value" data-fmt="bases">{{ total_bases() }}</div>
+					<div class="metric-value" data-fmt="bases">52</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Mean Length</div>
-					<div class="metric-value" data-fmt="bases">{{ mean_length() }}</div>
+					<div class="metric-value" data-fmt="bases">17</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Mean GC</div>
-					<div class="metric-value" data-fmt="pct">{{ mean_gc() }}</div>
+					<div class="metric-value" data-fmt="pct">0.5333333333333333</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">N50</div>
-					<div class="metric-value" data-fmt="bases">{{ n50() }}</div>
+					<div class="metric-value" data-fmt="bases">16</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">L50</div>
-					<div class="metric-value" data-fmt="number">{{ l50() }}</div>
+					<div class="metric-value" data-fmt="number">2</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Largest</div>
-					<div class="metric-value" data-fmt="bases">{{ largest_contig() }}</div>
+					<div class="metric-value" data-fmt="bases">20</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Smallest</div>
-					<div class="metric-value" data-fmt="bases">{{ smallest_contig() }}</div>
+					<div class="metric-value" data-fmt="bases">16</div>
 				</div>
 			</div>
 
@@ -273,23 +273,41 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for record in records %}
+						
 						<tr>
-							<td>{{ record.contig_name }}</td>
-							<td>{{ record.len }}</td>
-							<td>{{ record.gc|fmt("{:.4}") }}</td>
-							<td>{{ record.entropy|fmt("{:.4}") }}</td>
-							<td>{{ record.num_softmask }}</td>
-							<td>{{ record.num_hardmask }}</td>
+							<td>contig1</td>
+							<td>16</td>
+							<td>0.5000</td>
+							<td>2.0000</td>
+							<td>0</td>
+							<td>0</td>
 						</tr>
-						{% endfor %}
+						
+						<tr>
+							<td>contig2</td>
+							<td>20</td>
+							<td>0.6000</td>
+							<td>1.9710</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						
+						<tr>
+							<td>contig3</td>
+							<td>16</td>
+							<td>0.5000</td>
+							<td>2.0000</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						
 					</tbody>
 				</table>
 			</div>
 
 			<div class="report-footer">
-				<span>Runtime: <span class="mono">{{ runtime }}</span></span>
-				<span>Generated: <span class="mono" data-timestamp="{{ generated_at }}"></span></span>
+				<span>Runtime: <span class="mono">0.0s</span></span>
+				<span>Generated: <span class="mono" data-timestamp="1772802596"></span></span>
 			</div>
 		</main>
 
@@ -337,9 +355,13 @@
 
 			// Scatter chart
 			var data = [
-				{% for record in records %}
-				[{{ record.len }}, {{ record.gc }}],
-				{% endfor %}
+				
+				[16, 0.5],
+				
+				[20, 0.6],
+				
+				[16, 0.5],
+				
 			];
 
 			function extent(values) {
