@@ -337,10 +337,11 @@
             $(document).ready(function () {
                 $('#samples-table').DataTable({
                     pageLength: 25,
-                    order: [[0, 'asc']],
+                    order: [[3, 'desc']],
+                    stateSave: true,
                     layout: {
                         topStart: {
-                            buttons: ['csv', 'excel']
+                            buttons: ['csv', 'excel', 'colvis']
                         },
                         top1Start: 'searchBuilder'
                     }

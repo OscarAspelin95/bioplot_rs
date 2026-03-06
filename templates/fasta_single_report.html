@@ -326,9 +326,11 @@
 			$(document).ready(function () {
 				$('#fasta-table').DataTable({
 					pageLength: 25,
+				order: [[1, 'desc']],
+				stateSave: true,
 					layout: {
 						topStart: {
-							buttons: ['csv', 'excel']
+							buttons: ['csv', 'excel', 'colvis']
 						},
 						top1Start: 'searchBuilder'
 					}
@@ -394,8 +396,8 @@
 				chart.setOption({
 					tooltip: { trigger: 'item' },
 					grid: [
-						{ left: 70, right: 180, top: 140, bottom: 60 },
-						{ left: 70, right: 180, top: 30, height: 80 },
+						{ left: 70, right: 220, top: 140, bottom: 60 },
+						{ left: 70, right: 220, top: 30, height: 80 },
 						{ right: 30, width: 120, top: 140, bottom: 60 }
 					],
 					xAxis: [
@@ -414,6 +416,8 @@
 							xAxisIndex: 0, yAxisIndex: 0,
 							data: data,
 							symbolSize: 4,
+						large: true,
+						emphasis: { scale: true },
 							itemStyle: { color: 'rgba(30,107,107,0.6)' },
 							tooltip: {
 								formatter: function(p) {
@@ -467,7 +471,16 @@
 								};
 							}
 						}
-					]
+					],
+					dataZoom: [{ type: 'inside', xAxisIndex: 0, yAxisIndex: 0 }],
+					toolbox: { right: 220, top: 105, feature: { saveAsImage: {}, restore: {}, dataView: { readOnly: true }, dataZoom: {} } },
+					visualMap: {
+						type: 'continuous', calculable: true, seriesIndex: 0,
+						dimension: 1, min: yMin, max: yMax,
+						orient: 'vertical', right: 5, top: 140, bottom: 60, itemWidth: 18,
+						inRange: { color: ['#1e6b6b', '#1a2f4e'] },
+						outOfRange: { opacity: 0 }
+					}
 				});
 
 				window.addEventListener('resize', function() { chart.resize(); });

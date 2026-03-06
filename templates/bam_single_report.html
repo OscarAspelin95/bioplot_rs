@@ -303,9 +303,11 @@
 			$(document).ready(function () {
 				$('#bam-table').DataTable({
 					pageLength: 25,
+				order: [[1, 'desc']],
+				stateSave: true,
 					layout: {
 						topStart: {
-							buttons: ['csv', 'excel']
+							buttons: ['csv', 'excel', 'colvis']
 						},
 						top1Start: 'searchBuilder'
 					},
@@ -354,10 +356,14 @@
 						nameGap: 50,
 						axisLabel: { formatter: function(v) { return v.toFixed(1) + 'x'; } }
 					},
-					series: [{
+					dataZoom: [{ type: 'inside' }],
+				toolbox: { feature: { saveAsImage: {}, restore: {}, dataView: { readOnly: true }, dataZoom: {} } },
+				series: [{
 						type: 'scatter',
 						data: data,
 						symbolSize: 6,
+					large: true,
+					emphasis: { scale: true },
 						itemStyle: { color: 'rgba(30,107,107,0.65)' }
 					}]
 				});
