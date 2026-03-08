@@ -1,4 +1,4 @@
-.PHONY: all fmt fix lint test check build build-native docs update clean ci strict-lint
+.PHONY: all fmt fix lint test check build docs update clean ci strict-lint
 
 # -- dev
 all: update fmt fix lint test build
@@ -32,9 +32,6 @@ check:
 build:
 	@cargo build --release
 
-# --
-build-native:
-	RUSTFLAGS="-C target-cpu=native" cargo build --release
 
 # --
 docs:

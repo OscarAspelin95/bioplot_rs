@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,15 +19,15 @@
 
         body {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-            background-color: #f4f6f9;
-            color: #1a2f4e;
+            background-color: #0E0C14;
+            color: #EEEDF0;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
         /* ── Header ──────────────────────────────────────────── */
         .header {
-            background: linear-gradient(135deg, #1a2f4e 0%, #1e6b6b 100%);
+            background: linear-gradient(135deg, #0E0C14 0%, #1A0A2E 100%);
             color: #ffffff;
             padding: 2.5rem 3rem;
         }
@@ -62,9 +62,9 @@
         h2 {
             font-size: 1rem;
             font-weight: 600;
-            color: #1a2f4e;
+            color: #EEEDF0;
             margin-bottom: 1.25rem;
-            border-left: 3px solid #1e6b6b;
+            border-left: 3px solid #FF00A0;
             padding-left: 0.75rem;
         }
 
@@ -78,7 +78,7 @@
 
         .metric-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #2A2535;
             border-radius: 8px;
             padding: 1.25rem;
         }
@@ -88,14 +88,14 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #64748b;
+            color: #888495;
             margin-bottom: 0.4rem;
         }
 
         .metric-value {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #1a2f4e;
+            color: #FF00A0;
             line-height: 1.2;
         }
 
@@ -116,7 +116,7 @@
         }
 
         table.dataTable thead th {
-            background-color: #1a2f4e;
+            background-color: #EEEDF0;
             color: #ffffff;
             font-weight: 600;
             font-size: 0.75rem;
@@ -133,7 +133,7 @@
         }
 
         table.dataTable tbody tr:hover {
-            background-color: #f0f7f7 !important;
+            background-color: rgba(255,0,160,0.04) !important;
         }
 
         table.dataTable tbody tr:nth-child(even) {
@@ -142,7 +142,7 @@
 
         /* Filter input */
         .dataTables_filter input {
-            border: 1px solid #d1d5db;
+            border: 1px solid #2A2535;
             border-radius: 6px;
             padding: 0.4rem 0.75rem;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -152,8 +152,8 @@
         }
 
         .dataTables_filter input:focus {
-            border-color: #1e6b6b;
-            box-shadow: 0 0 0 3px rgba(30, 107, 107, 0.15);
+            border-color: #FF00A0;
+            box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
         }
 
         /* Pagination */
@@ -161,33 +161,33 @@
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif !important;
             font-size: 0.8rem !important;
             border-radius: 4px !important;
-            border: 1px solid #d1d5db !important;
+            border: 1px solid #2A2535 !important;
             margin: 0 2px !important;
         }
 
         .dataTables_paginate .paginate_button.current,
         .dataTables_paginate .paginate_button.current:hover {
-            background: #1e6b6b !important;
-            border-color: #1e6b6b !important;
-            color: #ffffff !important;
+            background: #FF00A0 !important;
+            border-color: #FF00A0 !important;
+            color: #0E0C14 !important;
         }
 
         .dataTables_paginate .paginate_button:hover {
-            background: #f0f7f7 !important;
-            border-color: #1e6b6b !important;
-            color: #1a2f4e !important;
+            background: rgba(255,0,160,0.06) !important;
+            border-color: #FF00A0 !important;
+            color: #FF00A0 !important;
         }
 
         .dataTables_info,
         .dataTables_length,
         .dataTables_filter {
             font-size: 0.8rem;
-            color: #64748b;
+            color: #888495;
             margin-bottom: 0.75rem !important;
         }
 
         .dataTables_length select {
-            border: 1px solid #d1d5db;
+            border: 1px solid #2A2535;
             border-radius: 4px;
             padding: 0.25rem 0.5rem;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -200,7 +200,7 @@
             margin: 1rem auto 2rem;
             padding: 0 3rem;
             font-size: 0.8rem;
-            color: #64748b;
+            color: #888495;
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
@@ -236,31 +236,31 @@
             font-size: 0.78rem;
             font-weight: 500;
             padding: 0.35rem 0.75rem;
-            border: 1px solid #b6d9d9;
+            border: 1px solid #2A2535;
             border-radius: 6px;
-            background: #f0f7f7;
-            color: #1e6b6b;
+            background: rgba(255,0,160,0.08);
+            color: #FF00A0;
             filter: none;
             line-height: 1.5;
             transition: all 0.15s;
         }
         div.dt-buttons > .dt-button:hover:not(.disabled),
         div.dt-buttons > div.dt-button-split .dt-button:hover:not(.disabled) {
-            background: #1e6b6b;
-            color: white;
-            border-color: #1e6b6b;
+            background: #FF00A0;
+            color: #0E0C14;
+            border-color: #FF00A0;
             filter: none;
         }
         div.dt-buttons > .dt-button:focus:not(.disabled),
         div.dt-buttons > div.dt-button-split .dt-button:focus:not(.disabled) {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(30,107,107,0.12);
+            box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
         }
         div.dt-buttons > .dt-button.dt-button-active:not(.disabled),
         div.dt-buttons > div.dt-button-split .dt-button.dt-button-active:not(.disabled) {
-            background: #1e6b6b;
-            color: white;
-            border-color: #1e6b6b;
+            background: #FF00A0;
+            color: #0E0C14;
+            border-color: #FF00A0;
             box-shadow: none;
             filter: none;
         }
@@ -275,9 +275,9 @@
         }
         div.dtsb-searchBuilder div.dtsb-group {
             position: relative;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #2A2535;
             border-radius: 8px;
-            background: #f8fafc;
+            background: #201D29;
             padding: 0.6rem 0.75rem 0.6rem 3.2rem;
             margin-bottom: 0.5rem;
         }
@@ -292,13 +292,13 @@
             flex-direction: column !important;
             flex-wrap: nowrap !important;
             align-items: stretch !important;
-            background: #1a2f4e;
+            background: #9600FF;
             border: none !important;
             border-radius: 4px;
             overflow: hidden;
         }
         div.dtsb-searchBuilder div.dtsb-logicContainer {
-            background: #1a2f4e;
+            background: #9600FF;
             border: none !important;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-logicContainer button.dtsb-logic {
@@ -330,9 +330,9 @@
             min-width: 0 !important;
             background: transparent;
             border: none;
-            border-top: 1px solid rgba(255,255,255,0.15);
+            border-top: 1px solid rgba(255,255,255,0.2);
             border-radius: 0;
-            color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.5);
             font-size: 0.6rem;
             padding: 0.2rem 0.2rem;
             margin: 0;
@@ -341,7 +341,7 @@
             transition: all 0.15s;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-logicContainer button.dtsb-clearGroup:hover {
-            color: #fca5a5; background: rgba(255,255,255,0.1);
+            color: #FF6B6B; background: rgba(255,255,255,0.1);
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria {
             margin-bottom: 0.4rem;
@@ -354,47 +354,47 @@
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-input {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             font-size: 0.82rem;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #2A2535;
             border-radius: 6px;
             padding: 0.3rem 0.55rem;
-            background: white;
-            color: #1e2a3a;
+            background: #16141F;
+            color: #EEEDF0;
             outline: none;
             margin-right: 0;
             transition: border-color 0.15s, box-shadow 0.15s;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-dropDown:focus,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-input:focus {
-            border-color: #1e6b6b;
-            box-shadow: 0 0 0 3px rgba(30,107,107,0.12);
+            border-color: #FF00A0;
+            box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data {
-            border-color: #e2e8f0;
+            border-color: #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-condition {
-            border-color: #e2e8f0;
+            border-color: #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-value,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-value {
-            border-color: #e2e8f0;
+            border-color: #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont input.dtsb-value,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont select {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             font-size: 0.82rem;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #2A2535;
             border-radius: 6px;
             padding: 0.3rem 0.55rem;
-            background: white;
-            color: #1e2a3a;
+            background: #16141F;
+            color: #EEEDF0;
             outline: none;
             box-sizing: border-box;
             transition: border-color 0.15s, box-shadow 0.15s;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont input.dtsb-value:focus,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont select:focus {
-            border-color: #1e6b6b;
-            box-shadow: 0 0 0 3px rgba(30,107,107,0.12);
+            border-color: #FF00A0;
+            box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
         }
         div.dtsb-searchBuilder button.dtsb-button {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -405,14 +405,14 @@
             cursor: pointer;
             transition: all 0.15s;
             line-height: 1.5;
-            background: #f0f7f7;
-            color: #1e6b6b;
-            border: 1px solid #b6d9d9;
+            background: rgba(255,0,160,0.08);
+            color: #FF00A0;
+            border: 1px solid #2A2535;
         }
         div.dtsb-searchBuilder button.dtsb-button:hover {
-            background: #1e6b6b;
+            background: #9600FF;
             color: white;
-            border-color: #1e6b6b;
+            border-color: #FF00A0;
         }
         div.dtsb-searchBuilder div.dtsb-group button.dtsb-search {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -423,14 +423,14 @@
             cursor: pointer;
             transition: all 0.15s;
             line-height: 1.5;
-            background: #f0f7f7;
-            color: #1e6b6b;
-            border: 1px solid #b6d9d9;
+            background: rgba(255,0,160,0.08);
+            color: #FF00A0;
+            border: 1px solid #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group button.dtsb-search:hover {
-            background: #1e6b6b;
+            background: #9600FF;
             color: white;
-            border-color: #1e6b6b;
+            border-color: #FF00A0;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-delete,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-right,
@@ -446,22 +446,22 @@
             margin-right: 0.3rem;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-delete {
-            background: #fff5f5;
-            color: #dc2626;
-            border: 1px solid #fca5a5;
+            background: rgba(255,107,107,0.1);
+            color: #FF6B6B;
+            border: 1px solid rgba(255,107,107,0.2);
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-delete:hover {
-            background: #dc2626; color: white; border-color: #dc2626;
+            background: #FF6B6B; color: #0E0C14; border-color: #FF6B6B;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-right,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-left {
-            background: white;
-            color: #64748b;
-            border: 1px solid #e2e8f0;
+            background: #16141F;
+            color: #888495;
+            border: 1px solid #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-right:hover,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-left:hover {
-            background: #f1f5f9; color: #1a2f4e;
+            background: #201D29; color: #EEEDF0;
         }
         div.dtsb-searchBuilder div.dtsb-titleRow button.dtsb-clearAll {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -473,11 +473,11 @@
             transition: all 0.15s;
             line-height: 1.5;
             background: transparent;
-            color: #94a3b8;
-            border: 1px solid #e2e8f0;
+            color: #595466;
+            border: 1px solid #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-titleRow button.dtsb-clearAll:hover {
-            background: #f1f5f9; color: #475569;
+            background: #201D29; color: #888495;
         }
         div.dtsb-searchBuilder div.dtsb-logicContainer {
             border: none;

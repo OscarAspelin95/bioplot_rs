@@ -30,7 +30,7 @@ pub enum SubCommand {
     },
 
     Bam {
-        #[clap(short, long)]
+        #[clap(short, long, num_args=1..)]
         files: Vec<PathBuf>,
     },
 }

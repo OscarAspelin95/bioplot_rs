@@ -19,11 +19,10 @@ There is a need for high-performance CLI tools that can quickly summarize and vi
 ## Tech Stack
 - [needletail](https://docs.rs/needletail/latest/needletail/) for FASTA/FASTQ parsing.
 - [noodles](https://docs.rs/noodles/latest/noodles/) for BAM parsing.
-- [askama](https://docs.rs/askama/latest/askama/) for Rust html template generation.
+- [askama](https://docs.rs/askama/latest/askama/) for HTML generation.
+- [headless_chrome](https://docs.rs/headless_chrome/latest/headless_chrome/) for PDF generation. 
 - [DataTables.js](https://datatables.net/) for interactive tables.
 - [Apache ECharts](https://echarts.apache.org/en/index.html) for plotting.
 
-## Roadmap
-- [ ] Add BAM parsing and visualization.
-- [ ] Add better table for single FASTQ (only low quality reads).
-- [ ] Remove table for single FASTA.
+## AI disclaimer
+I've used Claude for most of the HTML and CSS parts. With that said, the core Rust parts have been written by me.

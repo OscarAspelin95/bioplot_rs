@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>BAM Report &mdash; Single File | bioplot_rs</title>
+		<title>BAM Report &mdash; Multi-file | bioplot_rs</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -70,35 +70,6 @@
 				margin-bottom: 1.5rem;
 			}
 
-			.file-info {
-				background: #16141F;
-				border-radius: 10px;
-				box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px #2A2535;
-				padding: 1.1rem 1.75rem;
-				margin-bottom: 1.5rem;
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5rem 2.5rem;
-				align-items: center;
-			}
-
-			.file-info-item {
-				font-size: 0.8rem;
-				color: #888495;
-			}
-
-			.file-info-item strong {
-				color: #EEEDF0;
-				font-weight: 600;
-			}
-
-			.file-info-item .mono {
-				font-family: 'JetBrains Mono', monospace;
-				font-size: 0.74rem;
-				color: #888495;
-				word-break: break-all;
-			}
-
 			.metrics-grid {
 				display: grid;
 				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -127,37 +98,6 @@
 				font-weight: 700;
 				color: #FF00A0;
 				font-variant-numeric: tabular-nums;
-			}
-
-			.chart-controls {
-				display: flex;
-				align-items: center;
-				gap: 0.75rem;
-				margin-bottom: 1rem;
-			}
-
-			.chart-controls label {
-				font-size: 0.82rem;
-				color: #888495;
-				font-weight: 500;
-			}
-
-			.chart-controls select {
-				background: #0E0C14;
-				color: #EEEDF0;
-				border: 1px solid #2A2535;
-				border-radius: 6px;
-				padding: 0.35rem 0.7rem;
-				font-size: 0.85rem;
-				font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-				outline: none;
-				cursor: pointer;
-				transition: border-color 0.15s, box-shadow 0.15s;
-			}
-
-			.chart-controls select:focus {
-				border-color: #FF00A0;
-				box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
 			}
 
 			table.dataTable { border-collapse: collapse !important; }
@@ -221,11 +161,6 @@
 				border-color: #FF00A0 !important;
 				color: #FF00A0 !important;
 			}
-
-			td.cell-alt-high { background: rgba(255,50,50,0.18) !important; color: #FF6B6B; font-weight: 600; }
-			td.cell-alt-med  { background: rgba(255,140,0,0.15) !important; color: #FFA040; font-weight: 600; }
-			td.cell-del-high { background: rgba(255,50,50,0.18) !important; color: #FF6B6B; font-weight: 600; }
-			td.cell-del-med  { background: rgba(255,140,0,0.15) !important; color: #FFA040; font-weight: 600; }
 
 			.report-footer {
 				margin-top: 1rem;
@@ -381,10 +316,16 @@
 				border-color: #FF00A0;
 				box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
 			}
-			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data { border-color: #2A2535; }
-			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-condition { border-color: #2A2535; }
+			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data {
+				border-color: #2A2535;
+			}
+			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-condition {
+				border-color: #2A2535;
+			}
 			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-value,
-			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-value { border-color: #2A2535; }
+			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-value {
+				border-color: #2A2535;
+			}
 			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont input.dtsb-value,
 			div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont select {
 				font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -495,107 +436,54 @@
 	<body>
 		<header>
 			<div class="header-inner">
-				<h1>BAM Report &mdash; Single File</h1>
+				<h1>BAM Report &mdash; Multi-file</h1>
 				<p>bioplot_rs</p>
 			</div>
 		</header>
 
 		<main>
-			<!-- File info bar -->
-			<div class="file-info">
-				<div class="file-info-item"><strong>File:</strong> {{ file_name }}</div>
-				<div class="file-info-item"><strong>SHA-256:</strong> <span class="mono">{{ sha256 }}</span></div>
-				<div class="file-info-item"><strong>Window Size:</strong> <span class="mono">{{ window_size }} bp</span></div>
-			</div>
-
-			<!-- Summary metrics -->
 			<div class="metrics-grid">
 				<div class="metric">
-					<div class="metric-label">Total Reads</div>
-					<div class="metric-value" data-fmt="number">{{ total_reads }}</div>
+					<div class="metric-label">Files Processed</div>
+					<div class="metric-value" data-fmt="number">{{ self.num_files() }}</div>
 				</div>
 				<div class="metric">
-					<div class="metric-label">Mapped Reads</div>
-					<div class="metric-value" data-fmt="number">{{ mapped_reads }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">% Mapped</div>
-					<div class="metric-value" data-fmt="pct">{{ self.pct_mapped() }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">Mean Coverage</div>
-					<div class="metric-value" data-fmt="cov">{{ self.mean_genome_coverage() }}</div>
+					<div class="metric-label">Total Contigs</div>
+					<div class="metric-value" data-fmt="number">{{ self.total_contigs() }}</div>
 				</div>
 				<div class="metric">
 					<div class="metric-label">Total Bases</div>
 					<div class="metric-value" data-fmt="bases">{{ self.total_bases() }}</div>
 				</div>
 				<div class="metric">
-					<div class="metric-label">Contigs</div>
-					<div class="metric-value" data-fmt="number">{{ contigs|length }}</div>
-				</div>
-				<div class="metric">
-					<div class="metric-label">Het Positions</div>
-					<div class="metric-value" data-fmt="number">{{ het_positions|length }}</div>
+					<div class="metric-label">Mean Coverage</div>
+					<div class="metric-value" data-fmt="cov">{{ self.mean_coverage() }}</div>
 				</div>
 			</div>
 
-			<!-- Coverage chart -->
 			<div class="card">
-				<h2>Windowed Coverage</h2>
-				<div class="chart-controls">
-					<label for="contig-select">Contig:</label>
-					<select id="contig-select"></select>
-				</div>
-				<div id="coverage-chart" style="width: 100%; height: 420px;"></div>
+				<h2>Coverage vs Contig Length</h2>
+				<div id="scatter-chart" style="width: 100%; height: 500px;"></div>
 			</div>
 
-			<!-- Het positions table -->
 			<div class="card">
-				<h2>Heterozygous / Variant Positions</h2>
-				<table id="het-table" class="display" style="width:100%">
+				<h2>Contigs</h2>
+				<table id="bam-table" class="display" style="width:100%">
 					<thead>
 						<tr>
-							<th>Contig</th>
-							<th>Position</th>
-							<th>Depth</th>
-							<th>Dominant Base</th>
-							<th>Alt Fraction (%)</th>
-							<th>Del Fraction (%)</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for h in het_positions %}
-						<tr>
-							<td>{{ h.contig_name }}</td>
-							<td>{{ h.position }}</td>
-							<td>{{ h.depth }}</td>
-							<td style="font-family:'JetBrains Mono',monospace;font-weight:600;">{{ h.dominant_base }}</td>
-							<td data-order="{{ h.alt_fraction }}" data-alt="{{ h.alt_fraction }}">{{ h.alt_fraction|fmt("{:.2}") }}</td>
-							<td data-order="{{ h.del_fraction }}" data-del="{{ h.del_fraction }}">{{ h.del_fraction|fmt("{:.2}") }}</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-
-			<!-- Contig summary table -->
-			<div class="card">
-				<h2>Contig Summary</h2>
-				<table id="contig-table" class="display" style="width:100%">
-					<thead>
-						<tr>
+							<th>Sample Name</th>
 							<th>Contig</th>
 							<th>Length (bp)</th>
 							<th>Mean Coverage</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for c in contigs %}
+						{% for record in records %}
 						<tr>
-							<td>{{ c.name }}</td>
-							<td>{{ c.length }}</td>
-							<td>{{ c.mean_coverage|fmt("{:.4}") }}</td>
+							<td>{{ record.sample_name }}</td>
+							<td>{{ record.contig_name }}</td>
+							<td>{{ record.contig_length }}</td>
+							<td>{{ record.mean_coverage|fmt("{:.4}") }}</td>
 						</tr>
 						{% endfor %}
 					</tbody>
@@ -616,21 +504,11 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 		<script>
-			// Embedded data from Rust
-			var coverageData = {{ coverage_json|safe }};
-			var windowSize = {{ window_size }};
-
-			// ── Metric formatting ───────────────────────────────────────
 			function formatBases(n) {
 				if (n >= 1e9) return (n / 1e9).toFixed(2) + ' Gb';
 				if (n >= 1e6) return (n / 1e6).toFixed(2) + ' Mb';
 				if (n >= 1e3) return (n / 1e3).toFixed(2) + ' kb';
 				return n.toLocaleString() + ' bp';
-			}
-			function formatPos(bp) {
-				if (bp >= 1e6) return (bp / 1e6).toFixed(2) + ' Mb';
-				if (bp >= 1e3) return (bp / 1e3).toFixed(1) + ' kb';
-				return bp.toLocaleString() + ' bp';
 			}
 
 			document.querySelectorAll('.metric-value[data-fmt="number"]').forEach(function(el) {
@@ -642,162 +520,100 @@
 			document.querySelectorAll('.metric-value[data-fmt="cov"]').forEach(function(el) {
 				el.textContent = Number(el.textContent).toFixed(2) + 'x';
 			});
-			document.querySelectorAll('.metric-value[data-fmt="pct"]').forEach(function(el) {
-				el.textContent = Number(el.textContent).toFixed(2) + '%';
-			});
 			document.querySelectorAll('[data-timestamp]').forEach(function(el) {
 				var ts = parseInt(el.getAttribute('data-timestamp')) * 1000;
 				el.textContent = new Date(ts).toLocaleString();
 			});
 
-			// ── Coverage chart ──────────────────────────────────────────
-			var contigNames = Object.keys(coverageData);
-			var coverageChart = null;
-
-			function buildCoverageOption(contigName) {
-				var entry = coverageData[contigName];
-				if (!entry) return null;
-				var depths = entry.depths;
-				var length = entry.length;
-
-				var xData = depths.map(function(_, i) {
-					return i * windowSize;
-				});
-				var yData = depths;
-
-				return {
-					backgroundColor: 'transparent',
-					tooltip: {
-						trigger: 'axis',
-						formatter: function(params) {
-							var p = params[0];
-							var pos = p.value[0];
-							var dep = p.value[1];
-							return formatPos(pos) + '<br/>Depth: ' + dep.toFixed(2) + 'x';
-						},
-						axisPointer: { type: 'line', lineStyle: { color: '#FF00A0', opacity: 0.5 } }
-					},
-					grid: { left: 80, right: 40, top: 30, bottom: 60 },
-					xAxis: {
-						type: 'value',
-						name: 'Position',
-						nameLocation: 'center',
-						nameGap: 38,
-						min: 0,
-						max: length,
-						axisLabel: {
-							color: '#888495',
-							formatter: function(v) { return formatPos(v); }
-						},
-						axisLine: { lineStyle: { color: '#2A2535' } },
-						splitLine: { lineStyle: { color: '#1A1726' } }
-					},
-					yAxis: {
-						type: 'value',
-						name: 'Depth',
-						nameLocation: 'center',
-						nameGap: 50,
-						axisLabel: {
-							color: '#888495',
-							formatter: function(v) { return v.toFixed(1) + 'x'; }
-						},
-						axisLine: { lineStyle: { color: '#2A2535' } },
-						splitLine: { lineStyle: { color: '#1A1726' } }
-					},
-					dataZoom: [
-						{ type: 'inside', xAxisIndex: 0 },
-						{ type: 'slider', xAxisIndex: 0, bottom: 5, height: 20,
-						  fillerColor: 'rgba(255,0,160,0.12)', borderColor: '#2A2535',
-						  handleStyle: { color: '#FF00A0' } }
-					],
-					toolbox: { feature: { saveAsImage: {}, restore: {}, dataZoom: {} },
-					           iconStyle: { borderColor: '#888495' } },
-					series: [{
-						type: 'line',
-						data: xData.map(function(x, i) { return [x, yData[i]]; }),
-						showSymbol: false,
-						lineStyle: { color: '#FF00A0', width: 1.5 },
-						areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-							colorStops: [
-								{ offset: 0, color: 'rgba(255,0,160,0.35)' },
-								{ offset: 1, color: 'rgba(255,0,160,0.03)' }
-							]
-						}},
-						emphasis: { disabled: true }
-					}]
-				};
-			}
-
-			function renderCoverageChart(contigName) {
-				var option = buildCoverageOption(contigName);
-				if (!option) return;
-				if (!coverageChart) {
-					coverageChart = echarts.init(document.getElementById('coverage-chart'), 'dark');
-				}
-				coverageChart.setOption(option, true);
-			}
-
-			// Populate contig selector
-			var sel = document.getElementById('contig-select');
-			contigNames.forEach(function(name) {
-				var opt = document.createElement('option');
-				opt.value = name;
-				opt.textContent = name;
-				sel.appendChild(opt);
-			});
-			sel.addEventListener('change', function() {
-				renderCoverageChart(sel.value);
-			});
-			if (contigNames.length > 0) {
-				renderCoverageChart(contigNames[0]);
-			}
-			window.addEventListener('resize', function() {
-				if (coverageChart) coverageChart.resize();
-			});
-
-			// ── DataTables ──────────────────────────────────────────────
 			$(document).ready(function () {
-				// Het positions table
-				var hetTable = $('#het-table').DataTable({
+				$('#bam-table').DataTable({
 					pageLength: 25,
-					order: [[4, 'desc']],
+					order: [[2, 'desc']],
 					stateSave: true,
 					layout: {
-						topStart: { buttons: ['csv', 'excel', 'colvis'] },
+						topStart: {
+							buttons: ['csv', 'excel', 'colvis']
+						},
 						top1Start: 'searchBuilder'
 					},
 					columnDefs: [
-						{ targets: 1, render: function(data) { return Number(data).toLocaleString(); } },
-						{ targets: 4, render: function(data) { return (Number(data) * 100).toFixed(2) + '%'; } },
-						{ targets: 5, render: function(data) { return (Number(data) * 100).toFixed(2) + '%'; } }
-					],
-					createdRow: function(row, data) {
-						var altFrac = parseFloat($(row).find('td:eq(4)').attr('data-alt') || data[4]);
-						var delFrac = parseFloat($(row).find('td:eq(5)').attr('data-del') || data[5]);
-						var $altCell = $(row).find('td:eq(4)');
-						var $delCell = $(row).find('td:eq(5)');
-						if (altFrac >= 0.30) $altCell.addClass('cell-alt-high');
-						else if (altFrac >= 0.15) $altCell.addClass('cell-alt-med');
-						if (delFrac >= 0.30) $delCell.addClass('cell-del-high');
-						else if (delFrac >= 0.20) $delCell.addClass('cell-del-med');
-					}
-				});
-
-				// Contig summary table
-				$('#contig-table').DataTable({
-					pageLength: 25,
-					order: [[1, 'desc']],
-					stateSave: true,
-					layout: {
-						topStart: { buttons: ['csv', 'excel', 'colvis'] },
-						top1Start: 'searchBuilder'
-					},
-					columnDefs: [
-						{ targets: 1, render: function(data) { return Number(data).toLocaleString(); } },
-						{ targets: 2, render: function(data) { return Number(data).toFixed(4) + 'x'; } }
+						{ targets: 2, render: function(data) { return Number(data).toLocaleString(); } },
+						{ targets: 3, render: function(data) { return Number(data).toFixed(4) + 'x'; } }
 					]
 				});
 			});
+
+			// Build per-sample data series for colored scatter plot
+			var allData = [
+				{% for record in records %}
+				{ sample: "{{ record.sample_name }}", length: {{ record.contig_length }}, coverage: {{ record.mean_coverage }}, contig: "{{ record.contig_name }}" },
+				{% endfor %}
+			];
+
+			if (allData.length > 0) {
+				// Group by sample name
+				var sampleMap = {};
+				allData.forEach(function(d) {
+					if (!sampleMap[d.sample]) sampleMap[d.sample] = [];
+					sampleMap[d.sample].push([d.length, d.coverage, d.contig]);
+				});
+
+				var sampleNames = Object.keys(sampleMap).sort();
+
+				var series = sampleNames.map(function(name) {
+					return {
+						name: name,
+						type: 'scatter',
+						data: sampleMap[name],
+						symbolSize: 6,
+						emphasis: { scale: true }
+					};
+				});
+
+				var chart = echarts.init(document.getElementById('scatter-chart'), 'dark');
+				chart.setOption({
+					backgroundColor: 'transparent',
+					legend: {
+						type: 'scroll',
+						top: 0,
+						textStyle: { color: '#EEEDF0', fontSize: 11 }
+					},
+					tooltip: {
+						trigger: 'item',
+						formatter: function(p) {
+							return '<b>' + p.seriesName + '</b><br>'
+								+ '<b>' + p.value[2] + '</b><br>'
+								+ 'Length: ' + Number(p.value[0]).toLocaleString() + ' bp<br>'
+								+ 'Coverage: ' + Number(p.value[1]).toFixed(2) + 'x';
+						}
+					},
+					grid: { left: 80, right: 40, top: 50, bottom: 60 },
+					xAxis: {
+						type: 'value',
+						name: 'Length (bp)',
+						nameLocation: 'center',
+						nameGap: 35,
+						axisLabel: {
+							formatter: function(v) {
+								if (v >= 1e6) return (v / 1e6).toFixed(1) + 'M';
+								if (v >= 1e3) return (v / 1e3).toFixed(0) + 'k';
+								return v;
+							}
+						}
+					},
+					yAxis: {
+						type: 'value',
+						name: 'Mean Coverage',
+						nameLocation: 'center',
+						nameGap: 50,
+						axisLabel: { formatter: function(v) { return v.toFixed(1) + 'x'; } }
+					},
+					dataZoom: [{ type: 'inside' }],
+					toolbox: { feature: { saveAsImage: {}, restore: {}, dataView: { readOnly: true }, dataZoom: {} } },
+					series: series
+				});
+				window.addEventListener('resize', function() { chart.resize(); });
+			}
 		</script>
 	</body>
 </html>

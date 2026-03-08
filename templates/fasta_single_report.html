@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,17 +15,17 @@
 
 			body {
 				font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-				background: #f4f6f9;
-				color: #1e2a3a;
+				background: #0E0C14;
+				color: #EEEDF0;
 				min-height: 100vh;
 				-webkit-font-smoothing: antialiased;
 			}
 
 			header {
-				background: linear-gradient(135deg, #1a2f4e 0%, #1e6b6b 100%);
+				background: linear-gradient(135deg, #0E0C14 0%, #1A0A2E 100%);
 				color: white;
 				padding: 2.5rem 3rem;
-				box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+				box-shadow: 0 2px 12px rgba(0,0,0,0.4);
 			}
 
 			header .header-inner {
@@ -56,16 +56,16 @@
 			h2 {
 				font-size: 1rem;
 				font-weight: 600;
-				color: #1a2f4e;
+				color: #EEEDF0;
 				margin-bottom: 1.25rem;
-				border-left: 3px solid #1e6b6b;
+				border-left: 3px solid #FF00A0;
 				padding-left: 0.75rem;
 			}
 
 			.card {
-				background: white;
+				background: #16141F;
 				border-radius: 10px;
-				box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+				box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px #2A2535;
 				padding: 1.75rem 2rem;
 				margin-bottom: 1.5rem;
 			}
@@ -79,9 +79,9 @@
 			}
 
 			.metric {
-				background: white;
+				background: #16141F;
 				border-radius: 8px;
-				border: 1px solid #e2e8f0;
+				border: 1px solid #2A2535;
 				padding: 1.25rem;
 			}
 
@@ -89,7 +89,7 @@
 				font-size: 0.7rem;
 				text-transform: uppercase;
 				letter-spacing: 0.05em;
-				color: #64748b;
+				color: #888495;
 				font-weight: 600;
 				margin-bottom: 0.35rem;
 			}
@@ -97,15 +97,15 @@
 			.metric-value {
 				font-size: 1.5rem;
 				font-weight: 700;
-				color: #1a2f4e;
+				color: #FF00A0;
 				font-variant-numeric: tabular-nums;
 			}
 
 			/* File info section */
 			.file-info {
-				background: white;
+				background: #16141F;
 				border-radius: 10px;
-				box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+				box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px #2A2535;
 				padding: 1.25rem 1.75rem;
 				margin-bottom: 1.5rem;
 				display: flex;
@@ -116,25 +116,31 @@
 
 			.file-info-item {
 				font-size: 0.8rem;
-				color: #475569;
+				color: #888495;
 			}
 
 			.file-info-item strong {
-				color: #1a2f4e;
+				color: #EEEDF0;
 				font-weight: 600;
 			}
 
 			.file-info-item .mono {
 				font-family: 'JetBrains Mono', monospace;
 				font-size: 0.75rem;
-				color: #64748b;
+				color: #888495;
 			}
 
 			/* DataTables overrides */
 			table.dataTable { border-collapse: collapse !important; }
 
+			table.dataTable { color: #EEEDF0; }
+			table.dataTable tbody tr.odd { background-color: #0E0C14; }
+			table.dataTable tbody tr.even { background-color: #16141F; }
+			.dataTables_wrapper .dataTables_length select { background: #0E0C14; color: #EEEDF0; border: 1px solid #2A2535; border-radius: 4px; }
+			.dataTables_wrapper .dataTables_filter input { background: #0E0C14; color: #EEEDF0; }
+
 			table.dataTable thead th {
-				background: #1a2f4e;
+				background: #201D29;
 				color: white;
 				font-weight: 500;
 				font-size: 0.82rem;
@@ -144,17 +150,17 @@
 
 			table.dataTable tbody td {
 				font-size: 0.85rem;
-				border-color: #f1f5f9;
+				border-color: #1A1726;
 				padding: 0.6rem 1rem;
 				font-variant-numeric: tabular-nums;
 			}
 
 			table.dataTable tbody tr:hover {
-				background: #f0f7f7 !important;
+				background: rgba(255,0,160,0.06) !important;
 			}
 
 			.dataTables_wrapper .dataTables_filter input {
-				border: 1px solid #cbd5e1;
+				border: 1px solid #2A2535;
 				border-radius: 6px;
 				padding: 0.35rem 0.7rem;
 				font-size: 0.85rem;
@@ -163,41 +169,41 @@
 			}
 
 			.dataTables_wrapper .dataTables_filter input:focus {
-				border-color: #1e6b6b;
-				box-shadow: 0 0 0 3px rgba(30,107,107,0.12);
+				border-color: #FF00A0;
+				box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
 			}
 
 			.dataTables_wrapper .dataTables_info,
 			.dataTables_wrapper .dataTables_length,
 			.dataTables_wrapper .dataTables_filter label {
 				font-size: 0.82rem;
-				color: #64748b;
+				color: #888495;
 			}
 
 			.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-				background: #1e6b6b !important;
-				border-color: #1e6b6b !important;
-				color: white !important;
+				background: #FF00A0 !important;
+				border-color: #FF00A0 !important;
+				color: #0E0C14 !important;
 				border-radius: 6px;
 				font-weight: 500;
 			}
 
 			.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-				background: #f0f7f7 !important;
-				border-color: #1e6b6b !important;
-				color: #1e6b6b !important;
+				background: rgba(255,0,160,0.06) !important;
+				border-color: #FF00A0 !important;
+				color: #FF00A0 !important;
 			}
 
 			/* Footer */
 			.report-footer {
 				margin-top: 1rem;
 				padding: 1rem 0;
-				border-top: 1px solid #e2e8f0;
+				border-top: 1px solid #2A2535;
 				display: flex;
 				flex-wrap: wrap;
 				gap: 0.25rem 1.5rem;
 				font-size: 0.75rem;
-				color: #94a3b8;
+				color: #595466;
 			}
 
 			.report-footer .mono {
@@ -213,31 +219,31 @@
             font-size: 0.78rem;
             font-weight: 500;
             padding: 0.35rem 0.75rem;
-            border: 1px solid #b6d9d9;
+            border: 1px solid #2A2535;
             border-radius: 6px;
-            background: #f0f7f7;
-            color: #1e6b6b;
+            background: rgba(255,0,160,0.08);
+            color: #FF00A0;
             filter: none;
             line-height: 1.5;
             transition: all 0.15s;
         }
         div.dt-buttons > .dt-button:hover:not(.disabled),
         div.dt-buttons > div.dt-button-split .dt-button:hover:not(.disabled) {
-            background: #1e6b6b;
-            color: white;
-            border-color: #1e6b6b;
+            background: #FF00A0;
+            color: #0E0C14;
+            border-color: #FF00A0;
             filter: none;
         }
         div.dt-buttons > .dt-button:focus:not(.disabled),
         div.dt-buttons > div.dt-button-split .dt-button:focus:not(.disabled) {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(30,107,107,0.12);
+            box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
         }
         div.dt-buttons > .dt-button.dt-button-active:not(.disabled),
         div.dt-buttons > div.dt-button-split .dt-button.dt-button-active:not(.disabled) {
-            background: #1e6b6b;
-            color: white;
-            border-color: #1e6b6b;
+            background: #FF00A0;
+            color: #0E0C14;
+            border-color: #FF00A0;
             box-shadow: none;
             filter: none;
         }
@@ -252,9 +258,9 @@
         }
         div.dtsb-searchBuilder div.dtsb-group {
             position: relative;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #2A2535;
             border-radius: 8px;
-            background: #f8fafc;
+            background: #201D29;
             padding: 0.6rem 0.75rem 0.6rem 3.2rem;
             margin-bottom: 0.5rem;
         }
@@ -269,13 +275,13 @@
             flex-direction: column !important;
             flex-wrap: nowrap !important;
             align-items: stretch !important;
-            background: #1a2f4e;
+            background: #9600FF;
             border: none !important;
             border-radius: 4px;
             overflow: hidden;
         }
         div.dtsb-searchBuilder div.dtsb-logicContainer {
-            background: #1a2f4e;
+            background: #9600FF;
             border: none !important;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-logicContainer button.dtsb-logic {
@@ -307,9 +313,9 @@
             min-width: 0 !important;
             background: transparent;
             border: none;
-            border-top: 1px solid rgba(255,255,255,0.15);
+            border-top: 1px solid rgba(255,255,255,0.2);
             border-radius: 0;
-            color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.5);
             font-size: 0.6rem;
             padding: 0.2rem 0.2rem;
             margin: 0;
@@ -318,7 +324,7 @@
             transition: all 0.15s;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-logicContainer button.dtsb-clearGroup:hover {
-            color: #fca5a5; background: rgba(255,255,255,0.1);
+            color: #FF6B6B; background: rgba(255,255,255,0.1);
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria {
             margin-bottom: 0.4rem;
@@ -331,47 +337,47 @@
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-input {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             font-size: 0.82rem;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #2A2535;
             border-radius: 6px;
             padding: 0.3rem 0.55rem;
-            background: white;
-            color: #1e2a3a;
+            background: #16141F;
+            color: #EEEDF0;
             outline: none;
             margin-right: 0;
             transition: border-color 0.15s, box-shadow 0.15s;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-dropDown:focus,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-input:focus {
-            border-color: #1e6b6b;
-            box-shadow: 0 0 0 3px rgba(30,107,107,0.12);
+            border-color: #FF00A0;
+            box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data {
-            border-color: #e2e8f0;
+            border-color: #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-condition {
-            border-color: #e2e8f0;
+            border-color: #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-value,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-value {
-            border-color: #e2e8f0;
+            border-color: #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont input.dtsb-value,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont select {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             font-size: 0.82rem;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #2A2535;
             border-radius: 6px;
             padding: 0.3rem 0.55rem;
-            background: white;
-            color: #1e2a3a;
+            background: #16141F;
+            color: #EEEDF0;
             outline: none;
             box-sizing: border-box;
             transition: border-color 0.15s, box-shadow 0.15s;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont input.dtsb-value:focus,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont select:focus {
-            border-color: #1e6b6b;
-            box-shadow: 0 0 0 3px rgba(30,107,107,0.12);
+            border-color: #FF00A0;
+            box-shadow: 0 0 0 3px rgba(255,0,160,0.15);
         }
         div.dtsb-searchBuilder button.dtsb-button {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -382,14 +388,14 @@
             cursor: pointer;
             transition: all 0.15s;
             line-height: 1.5;
-            background: #f0f7f7;
-            color: #1e6b6b;
-            border: 1px solid #b6d9d9;
+            background: rgba(255,0,160,0.08);
+            color: #FF00A0;
+            border: 1px solid #2A2535;
         }
         div.dtsb-searchBuilder button.dtsb-button:hover {
-            background: #1e6b6b;
+            background: #9600FF;
             color: white;
-            border-color: #1e6b6b;
+            border-color: #FF00A0;
         }
         div.dtsb-searchBuilder div.dtsb-group button.dtsb-search {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -400,14 +406,14 @@
             cursor: pointer;
             transition: all 0.15s;
             line-height: 1.5;
-            background: #f0f7f7;
-            color: #1e6b6b;
-            border: 1px solid #b6d9d9;
+            background: rgba(255,0,160,0.08);
+            color: #FF00A0;
+            border: 1px solid #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group button.dtsb-search:hover {
-            background: #1e6b6b;
+            background: #9600FF;
             color: white;
-            border-color: #1e6b6b;
+            border-color: #FF00A0;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-delete,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-right,
@@ -423,22 +429,22 @@
             margin-right: 0.3rem;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-delete {
-            background: #fff5f5;
-            color: #dc2626;
-            border: 1px solid #fca5a5;
+            background: rgba(255,107,107,0.1);
+            color: #FF6B6B;
+            border: 1px solid rgba(255,107,107,0.2);
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-delete:hover {
-            background: #dc2626; color: white; border-color: #dc2626;
+            background: #FF6B6B; color: #0E0C14; border-color: #FF6B6B;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-right,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-left {
-            background: white;
-            color: #64748b;
-            border: 1px solid #e2e8f0;
+            background: #16141F;
+            color: #888495;
+            border: 1px solid #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-right:hover,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-buttonContainer button.dtsb-left:hover {
-            background: #f1f5f9; color: #1a2f4e;
+            background: #201D29; color: #EEEDF0;
         }
         div.dtsb-searchBuilder div.dtsb-titleRow button.dtsb-clearAll {
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -450,11 +456,11 @@
             transition: all 0.15s;
             line-height: 1.5;
             background: transparent;
-            color: #94a3b8;
-            border: 1px solid #e2e8f0;
+            color: #595466;
+            border: 1px solid #2A2535;
         }
         div.dtsb-searchBuilder div.dtsb-titleRow button.dtsb-clearAll:hover {
-            background: #f1f5f9; color: #475569;
+            background: #201D29; color: #888495;
         }
         div.dtsb-searchBuilder div.dtsb-logicContainer {
             border: none;
@@ -513,7 +519,7 @@
 
 			<div class="card">
 				<h2>Length vs GC Content</h2>
-				<div id="scatter-chart" style="width: 100%; height: 600px;"></div>
+				<div id="scatter-chart" style="width: 100%; height: 600px; border: 1px solid #2A2535; border-radius: 8px; overflow: hidden;"></div>
 			</div>
 
 			<div class="card">
@@ -648,14 +654,15 @@
 
 				var kFmt = function(v) { return v >= 1000 ? (v/1000).toFixed(1).replace(/\.0$/, '') + 'k' : v; };
 
-				var chart = echarts.init(document.getElementById('scatter-chart'));
+				var chart = echarts.init(document.getElementById('scatter-chart'), 'dark');
 
 				chart.setOption({
+					backgroundColor: 'transparent',
 					tooltip: { trigger: 'item' },
 					grid: [
-						{ left: 70, right: 220, top: 140, bottom: 60 },
+						{ left: 70, right: 220, top: 180, bottom: 60 },
 						{ left: 70, right: 220, top: 30, height: 80 },
-						{ right: 30, width: 120, top: 140, bottom: 60 }
+						{ right: 30, width: 120, top: 180, bottom: 60 }
 					],
 					xAxis: [
 						{ gridIndex: 0, type: 'value', name: 'Length (bp)', nameLocation: 'center', nameGap: 30, min: xMin, max: xMax },
@@ -674,7 +681,7 @@
 							data: data,
 							symbolSize: 4,
 												emphasis: { scale: true },
-							itemStyle: { color: 'rgba(30,107,107,0.6)' },
+							itemStyle: { color: 'rgba(255,0,160,0.6)' },
 							tooltip: {
 								formatter: function(p) {
 									return 'Length: ' + p.value[0].toLocaleString() + ' bp<br>GC: ' + p.value[1].toFixed(4);
@@ -699,8 +706,8 @@
 									{ x: params.coordSys.x, y: params.coordSys.y, width: params.coordSys.width, height: params.coordSys.height }
 								);
 								return rect && {
-									type: 'rect', shape: rect,
-									style: { fill: 'rgba(30,107,107,0.7)', stroke: 'rgba(26,47,78,0.2)', lineWidth: 0.5 }
+									type: 'rect', shape: { ...rect, r: [4, 4, 0, 0] },
+									style: { fill: 'rgba(150,0,255,0.5)', stroke: 'rgba(150,0,255,0.2)', lineWidth: 0.5 }
 								};
 							}
 						},
@@ -722,19 +729,19 @@
 									{ x: params.coordSys.x, y: params.coordSys.y, width: params.coordSys.width, height: params.coordSys.height }
 								);
 								return rect && {
-									type: 'rect', shape: rect,
-									style: { fill: 'rgba(30,107,107,0.7)', stroke: 'rgba(26,47,78,0.2)', lineWidth: 0.5 }
+									type: 'rect', shape: { ...rect, r: [0, 4, 4, 0] },
+									style: { fill: 'rgba(150,0,255,0.5)', stroke: 'rgba(150,0,255,0.2)', lineWidth: 0.5 }
 								};
 							}
 						}
 					],
 					dataZoom: [{ type: 'inside', xAxisIndex: 0, yAxisIndex: 0 }],
-					toolbox: { right: 220, top: 105, feature: { saveAsImage: {}, restore: {}, dataView: { readOnly: true }, dataZoom: {} } },
+					toolbox: { right: 220, top: 125, feature: { saveAsImage: {}, restore: {}, dataView: { readOnly: true }, dataZoom: {} } },
 					visualMap: {
 						type: 'continuous', calculable: true, seriesIndex: 0,
 						dimension: 1, min: yMin, max: yMax,
-						orient: 'vertical', right: 5, top: 140, bottom: 60, itemWidth: 18,
-						inRange: { color: ['#1e6b6b', '#1a2f4e'] },
+						orient: 'vertical', right: 5, top: 180, bottom: 60, itemWidth: 18,
+						inRange: { color: ['#FF00A0', '#9600FF'] },
 						outOfRange: { opacity: 0 }
 					}
 				});
@@ -766,6 +773,7 @@
 						yBins[yi]++;
 					}
 					chart.setOption({
+					backgroundColor: 'transparent',
 						series: [
 							{},
 							{ data: xBins.map(function(c, i) { return [histX.edges[i], histX.edges[i+1], c]; }) },
